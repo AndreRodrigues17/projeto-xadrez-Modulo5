@@ -18,6 +18,27 @@ app.get("/api/pecas", (req, res) => {
   res.json(pecas);
 });
 
+app.post("/api/pecas", (req, res) => {
+  const { name, value, color } = req.body;
+
+  if (!name || !name.trim()) {
+    return res.status(400).json({ error: "O nome é obrigatório" });
+  }
+  if (color !== "Branca" && color !== "Preta") {
+    return res.status(400).json({ error: "A cor tem de ser Branca ou Preta" });
+  }
+  const numero = Number(value);
+  if (value === "" || value === null || value === undefined || Number.isNaN(numero) || numero < 0) {
+    return res.status(400).json({ error: "O valor tem de ser um número igual ou maior que 0" });
+  }
+
+  const id = pecas.length > 0 ? Math.max(...pecas.map((p) => p.id)) + 1 : 1;
+  const nova = { id, name: name.trim(), value: numero, color };
+  pecas.push(nova);
+  save();
+  res.status(201).json(nova);
+});
+
 app.listen(3001, () => {
   console.log("Server a correr em http://localhost:3001");
 });
