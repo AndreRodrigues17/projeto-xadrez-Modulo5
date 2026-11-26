@@ -39,6 +39,19 @@ app.post("/api/pecas", (req, res) => {
   res.status(201).json(nova);
 });
 
+app.delete("/api/pecas/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const indice = pecas.findIndex((p) => p.id === id);
+
+  if (indice === -1) {
+    return res.status(404).json({ error: "Peça não encontrada" });
+  }
+
+  pecas.splice(indice, 1);
+  save();
+  res.status(204).send();
+});
+
 app.listen(3001, () => {
   console.log("Server a correr em http://localhost:3001");
 });
