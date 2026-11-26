@@ -1,0 +1,14 @@
+[
+  { "id": 1, "name": "Peão", "value": 1, "color": "Branca" },
+  { "id": 2, "name": "Cavalo", "value": 3, "color": "Branca" },
+  { "id": 3, "name": "Bispo", "value": 3, "color": "Branca" },
+  { "id": 4, "name": "Torre", "value": 5, "color": "Branca" },
+  { "id": 5, "name": "Dama", "value": 9, "color": "Branca" },
+  { "id": 6, "name": "Rei", "value": 0, "color": "Branca" },
+  { "id": 7, "name": "Peão", "value": 1, "color": "Preta" },
+  { "id": 8, "name": "Cavalo", "value": 3, "color": "Preta" },
+  { "id": 9, "name": "Bispo", "value": 3, "color": "Preta" },
+  { "id": 10, "name": "Torre", "value": 5, "color": "Preta" },
+  { "id": 11, "name": "Dama", "value": 9, "color": "Preta" },
+  { "id": 12, "name": "Rei", "value": 0, "color": "Preta" }
+]
