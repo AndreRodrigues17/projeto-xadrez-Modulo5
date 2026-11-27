@@ -8,6 +8,7 @@ function App() {
   const [erro, setErro] = useState("");
   const [erroApagar, setErroApagar] = useState("");
   const [filtroCor, setFiltroCor] = useState("Todas");
+  const [pesquisa, setPesquisa] = useState("");
 
   useEffect(() => {
     fetch("http://localhost:3001/api/pecas")
@@ -42,7 +43,9 @@ function App() {
   }
 
   const visiveis = pecas.filter(
-    (p) => filtroCor === "Todas" || p.color === filtroCor
+    (p) =>
+      (filtroCor === "Todas" || p.color === filtroCor) &&
+      p.name.toLowerCase().includes(pesquisa.toLowerCase())
   );
 
   if (loading) return <p>A carregar...</p>;
@@ -52,6 +55,12 @@ function App() {
     <div>
       <h1>Peças de xadrez</h1>
       <Formulario onAdd={adicionar} />
+      <input
+        type="text"
+        placeholder="Pesquisar por nome"
+        value={pesquisa}
+        onChange={(e) => setPesquisa(e.target.value)}
+      />
       <select value={filtroCor} onChange={(e) => setFiltroCor(e.target.value)}>
         <option value="Todas">Todas</option>
         <option value="Branca">Branca</option>
