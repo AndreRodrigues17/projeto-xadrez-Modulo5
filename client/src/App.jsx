@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import Formulario from "./Formulario";
 import Item from "./Item";
- 
+
 function App() {
   const [pecas, setPecas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState("");
   const [erroApagar, setErroApagar] = useState("");
- 
+  const [filtroCor, setFiltroCor] = useState("Todas");
+
   useEffect(() => {
     fetch("http://localhost:3001/api/pecas")
       .then((res) => {
@@ -18,11 +19,11 @@ function App() {
       .catch((err) => setErro(err.message))
       .finally(() => setLoading(false));
   }, []);
- 
+
   function adicionar(nova) {
     setPecas([...pecas, nova]);
   }
- 
+
   async function apagar(id) {
     setErroApagar("");
     try {
@@ -39,22 +40,34 @@ function App() {
       setErroApagar("Não foi possível falar com o server");
     }
   }
- 
+
+  const visiveis = pecas.filter(
+    (p) => filtroCor === "Todas" || p.color === filtroCor
+  );
+
   if (loading) return <p>A carregar...</p>;
   if (erro) return <p>Erro: {erro}</p>;
- 
+
   return (
-<div>
-<h1>Peças de xadrez</h1>
-<Formulario onAdd={adicionar} />
+    <div>
+      <h1>Peças de xadrez</h1>
+      <Formulario onAdd={adicionar} />
+      <select value={filtroCor} onChange={(e) => setFiltroCor(e.target.value)}>
+        <option value="Todas">Todas</option>
+        <option value="Branca">Branca</option>
+        <option value="Preta">Preta</option>
+      </select>
+      <p>
+        A mostrar {visiveis.length} de {pecas.length}
+      </p>
       {erroApagar && <p>{erroApagar}</p>}
-<ul>
-        {pecas.map((p) => (
-<Item key={p.id} peca={p} onDelete={apagar} />
+      <ul>
+        {visiveis.map((p) => (
+          <Item key={p.id} peca={p} onDelete={apagar} />
         ))}
-</ul>
-</div>
+      </ul>
+    </div>
   );
 }
- 
+
 export default App;
